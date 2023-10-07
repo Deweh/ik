@@ -285,7 +285,7 @@ target_compile_definitions (ik_obj
     PRIVATE $<$<CONFIG:Debug>:DEBUG>)
 target_compile_options (ik_obj
     PRIVATE $<$<C_COMPILER_ID:MSVC>:
-        /EHa /MTd /W4 /WX /wd4305 /wd4201 /wd4706 /wd4100 /wd4244 /wd4477 /wd4003 /D_CRT_SECURE_NO_DEPRECATE
+        /EHa /W4 /WX /wd4305 /wd4201 /wd4706 /wd4100 /wd4244 /wd4477 /wd4003 /D_CRT_SECURE_NO_DEPRECATE
     >
     PRIVATE $<$<C_COMPILER_ID:GNU>:
         -W -Wall -Wextra -Werror -Wshadow -Wconversion -Wno-unused-parameter -Wno-conversion -Wno-implicit-fallthrough
@@ -318,7 +318,7 @@ if (IK_PYTHON)
             ${PYTHON_INCLUDE_DIRS})
     target_compile_options (ik_python_obj
         PUBLIC $<$<C_COMPILER_ID:MSVC>:
-            /EHa /MTd /W4 /WX /wd4115 /wd4201 /wd4100 /D_CRT_SECURE_NO_DEPRECATE
+            /EHa /W4 /WX /wd4115 /wd4201 /wd4100 /D_CRT_SECURE_NO_DEPRECATE
         >
         PUBLIC $<$<C_COMPILER_ID:GNU>:
             -Wall -Wextra -Werror -pedantic -pedantic-errors -Wno-missing-field-initializers -Wshadow
@@ -375,7 +375,7 @@ if (IK_TESTS)
         PROPERTIES POSITION_INDEPENDENT_CODE ${IK_PIC})
     target_compile_options (ik_tests_obj
         PRIVATE $<$<C_COMPILER_ID:MSVC>:
-            /MTd /D_CRT_SECURE_NO_DEPRECATE
+            /D_CRT_SECURE_NO_DEPRECATE
         >
         PRIVATE $<$<C_COMPILER_ID:GNU>:
             -Wno-unused-result
@@ -416,7 +416,7 @@ if (IK_BENCHMARKS)
         PROPERTIES POSITION_INDEPENDENT_CODE ${IK_PIC})
     target_compile_options (ik_benchmarks_obj
         PRIVATE $<$<C_COMPILER_ID:MSVC>:
-            /MTd /D_CRT_SECURE_NO_DEPRECATE
+            /D_CRT_SECURE_NO_DEPRECATE
         >
         PRIVATE $<$<C_COMPILER_ID:GNU>:
             -Wno-unused-result
