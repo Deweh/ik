@@ -32,6 +32,8 @@ ik_node_base_construct(struct ik_node_t* node, uint32_t guid)
     node->guid = guid;
     ik_quat_static_set_identity(node->rotation.f);
     ik_vec3_static_set_zero(node->rotation.f);
+    node->hasPole = 0;
+    ik_vec3_static_set_zero(node->pole.f);
 
     return IK_OK;
 }

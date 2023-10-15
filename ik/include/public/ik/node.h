@@ -71,7 +71,9 @@ struct ik_node_interface_t;
     struct ik_constraint_t* constraint;                                       \
                                                                               \
     ikreal_t rotation_weight;                                                 \
-    ikreal_t dist_to_parent;
+    ikreal_t dist_to_parent;                                                  \
+    unsigned char hasPole;                                                    \
+    ik_vec3_t pole;
 
 /*!
  * @brief Base structure used to build the tree structure to be solved.

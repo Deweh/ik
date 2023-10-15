@@ -10,3 +10,5 @@ ik.wiki
 
 # valgrind results
 *.grind
+
+.vs/
