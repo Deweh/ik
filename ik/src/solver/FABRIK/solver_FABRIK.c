@@ -580,6 +580,9 @@ pole_ortho_normalize(const ikreal_t a[3], ikreal_t b[3])
     ik_vec3_static_normalize(b);
 }
 
+//Based on the EasyIK pole constraint implementation:
+//https://github.com/joaen/EasyIK/blob/master/EasyIK/Assets/Scripts/EasyIK.cs#L80
+//MIT Licensed by Joar Engberg
 static void
 apply_pole_constraint(struct chain_t* chain)
 {
