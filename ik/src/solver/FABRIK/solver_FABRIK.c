@@ -594,16 +594,16 @@ apply_pole_constraint(struct chain_t* chain)
         return;
 
     ik_vec3_t limbAxis = n2->position;
-    ik_vec3_static_sub_vec3(limbAxis, n0->position);
-    ik_vec3_static_normalize(limbAxis);
+    ik_vec3_static_sub_vec3(limbAxis.f, n0->position.f);
+    ik_vec3_static_normalize(limbAxis.f);
 
     ik_vec3_t poleDirection = n1->pole;
-    ik_vec3_static_sub_vec3(poleDirection, n0->position);
-    ik_vec3_static_normalize(poleDirection);
+    ik_vec3_static_sub_vec3(poleDirection.f, n0->position.f);
+    ik_vec3_static_normalize(poleDirection.f);
 
     ik_vec3_t boneDirection = n1->position;
-    ik_vec3_static_sub_vec3(boneDirection, n0->position);
-    ik_vec3_static_normalize(boneDirection);
+    ik_vec3_static_sub_vec3(boneDirection.f, n0->position.f);
+    ik_vec3_static_normalize(boneDirection.f);
 
     pole_ortho_normalize(limbAxis.f, poleDirection.f);
     pole_ortho_normalize(limbAxis.f, boneDirection.f);
@@ -612,9 +612,9 @@ apply_pole_constraint(struct chain_t* chain)
     ik_quat_static_angle_normalized_vectors(angle.f, boneDirection.f, poleDirection.f);
 
     ik_vec3_t rotPoint = n1->position;
-    ik_vec3_static_sub_vec3(rotPoint.f, n0->position);
+    ik_vec3_static_sub_vec3(rotPoint.f, n0->position.f);
     ik_vec3_static_rotate(rotPoint.f, angle.f);
-    ik_vec3_static_add_vec3(rotPoint.f, n0->position);
+    ik_vec3_static_add_vec3(rotPoint.f, n0->position.f);
 
     n1->position = rotPoint;
 }
@@ -666,6 +666,8 @@ ik_solver_FABRIK_solve(struct ik_solver_t* solver)
                 solve_chain_backwards_with_constraints(chain, base_node->position, base_node->rotation, base_node->position);
             else
                 solve_chain_backwards(chain, base_node->position);
+
+            apply_pole_constraint(chain);
         SOLVER_END_EACH
 
         /* Check if all effectors are within range */
@@ -679,10 +681,6 @@ ik_solver_FABRIK_solve(struct ik_solver_t* solver)
             }
         SOLVER_END_EACH
     }
-
-    SOLVER_FOR_EACH_CHAIN(solver, chain)
-        apply_pole_constraint(chain);
-    SOLVER_END_EACH
 
     if (solver->flags & IK_ENABLE_JOINT_ROTATIONS)
         calculate_joint_rotations(&solver->chain_list);
