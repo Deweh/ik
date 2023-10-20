@@ -598,9 +598,11 @@ apply_pole_constraint(struct chain_t* chain)
 
     ikreal_t fullLengthSquared = n1->dist_to_parent + n2->dist_to_parent;
     fullLengthSquared *= fullLengthSquared;
+    ik_vec3_t lengthDiff = n0->position;
+    ik_vec3_static_sub_vec3(lengthDiff.f, n2->effector->target_position.f);
 
     //Don't apply pole if target is out of reach of the chain.
-    if (fullLengthSquared < fabs(ik_vec3_static_length_squared(n0->position.f, n2->effector->target_position.f)))
+    if (fullLengthSquared < fabs(ik_vec3_static_length_squared(lengthDiff.f)))
         return;
 
     ik_vec3_t limbAxis = n2->position;
@@ -684,7 +686,7 @@ ik_solver_FABRIK_solve(struct ik_solver_t* solver)
         SOLVER_FOR_EACH_EFFECTOR_NODE(solver, node)
             ik_vec3_t diff = node->position;
             ik_vec3_static_sub_vec3(diff.f, node->effector->target_position.f);
-            if (fabs(ik_vec3_static_length_squared(diff.f)) < tolerance_squared)
+            if (ik_vec3_static_length_squared(diff.f) > tolerance_squared)
             {
                 result = IK_RESULT_CONVERGED;
                 break;
